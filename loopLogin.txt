@@ -29,7 +29,7 @@ PAM（Pluggable Authentication Modules）控制登录的认证过程。如果 PA
 cat /var/log/Xorg.0.log
 
 
-.Xauthority文件是一个**二进制文件**，通常不是直接由用户阅读或编辑的。它存储的是 X Window System 相关的**授权信息**，包括认证 cookie，允许用户访问和使用图形界面的 X 服务器。
+.Xauthority文件是一个二进制文件，通常不是直接由用户阅读或编辑的。它存储的是 X Window System 相关的授权信息，包括认证 cookie，允许用户访问和使用图形界面的 X 服务器。
 
 该文件的主要作用是帮助 X 服务器区分哪些用户有权限连接到它。每次用户启动图形界面会话时，系统会读取或更新.Xauthority文件，以确保用户身份得到了认证。
 
