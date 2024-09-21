@@ -1,0 +1,26 @@
+all command about dpkg
+1.dpkg -l:List installed packages.
+2.dpkg -s [package_name]: Display details about installed package.
+3.dpkg -L [package_name]: List files installed by a package.
+4.dpkg -i [package_name]: Install a package file.
+5.dpkg --configure [package_name]: configure an installed package.
+6.dpkg -r [package_name]: remove an installed package.
+7.dpkg -P [package_name]: Purge an installed package(remove both the package and its configuration files).
+8.dpkg --get-selection: List the selection statused of all packages.
+9.dpkg --clear-selections: Unselect all packages.
+10.dpkg --set-selections: Set the selection state of packages.
+
+all aommand about apt:
+1.apt update:Update the package list.
+2.apt upgrade: Upgrade all installed packages to the latest version.
+3.apt install [package_name]: Install a new package.
+4.apt remove [package_name]: remove an installed package.
+5.apt purge [package_name]: Remove an installed package along with its configuration files.
+6.apt search [package_name]: Search for a package in the package list.
+7.apt show [package_name]: Display detailed information about a package.
+8.apt list --installed: List all installed packages.
+9.apt list --upgradable: List packages that can be upgraded.
+10.apt autoremove: Remove packages that were automatically installed to satisfy dependencies
+                   for other packages and are now no longer needed.
+11.apt clean: Clear out the local respository of retrieved package files.
+12.apt full-upgrade: Upgrade the system by removing obsolete packages and installing new dependencies
