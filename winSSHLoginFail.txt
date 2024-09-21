@@ -1,0 +1,8 @@
+在windows上(管理员模式)，输入net start sshd(或者在powershell里输入Start-Service sshd)发现ssh服务一直启动失败，并出现一下错误信息:
+The OpenSSH SSH Server service is starting.
+The OpenSSH SSH Server service could not be started.
+A system error has occurred.
+System error 1067 has occurred.
+The process terminated unexpectedly.
+
+删除C:\ProgramData\ssh这个目录后再重新启动就可以了
