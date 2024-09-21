@@ -1,0 +1,28 @@
+如何在kali安装tightvnc?
+1.安装tightvnc server
+sudo apt update
+sudo apt install tightvncserver
+
+2.为vnc设置一个密码
+tightvncpasswd
+
+3.配置vnc server
+nano ~/.vnc/xstartup
+输入以下内容:
+#!/bin/sh
+xrdb $HOME/.Xresources
+startxfce4
+然后给xtartup文件可执行权限
+chmod +x ~/.vnc/xstartup
+
+4.开启vnc server(连接端口一般是5901)
+sudo tightvnc :1(不加sudo可能导致连接成功后是黑屏的状态)
+
+5.用tightvnc viewer或者其他vnc客户端连接,输入
+ip:1或者ip:5901即可连接
+
+有防火墙的话可以添加规则
+sudo ufw allow 5901/tcp
+
+停止vnc server
+vncserver -kill :1(这个得和连接时的端口号一致)
