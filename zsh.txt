@@ -1,0 +1,19 @@
+要将 Ubuntu 的默认 shell 改为 Zsh，可以按照以下步骤操作：
+1.安装 Zsh：
+如果你的系统还没有安装 Zsh，可以通过以下命令进行安装：
+ sudo apt update
+ sudo apt install zsh
+
+2.更改默认 Shell：
+使用 chsh 命令将默认的 shell 更改为 Zsh：
+ chsh -s $(which zsh)
+这将把当前用户的默认 shell 设置为 Zsh。
+
+3.重新登录：
+你需要注销并重新登录，或者关闭终端并重新打开，以使更改生效。
+
+4.配置 Zsh：
+第一次启动 Zsh 时，你可能会看到一个提示，要求你选择配置。你可以选择自动配置或手动配置。
+如果你希望使用 Oh My Zsh（一个流行的 Zsh 框架），可以通过以下命令安装：
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+完成以上步骤后，Ubuntu 的默认 shell 就会变成 Zsh 了。
