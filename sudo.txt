@@ -1,0 +1,19 @@
+在debian中，一般用户是kaz，我输入sudo service status时，系统显示kaz is not the sudoers file
+在 Debian 系统中，当你使用 sudo 命令时，如果系统显示 “kaz is not in the sudoers file”，
+说明当前用户 kaz 没有被授予使用 sudo 命令的权限。要解决这个问题，你可以按照以下步骤将 kaz 用户添加到 sudoers 文件中。
+1.切换到 root 用户（假设你知道 root 用户的密码）：
+su -
+
+2.将用户 kaz 添加到 sudo 组：
+在 root 权限下运行以下命令，将 kaz 用户添加到 sudo 组：
+usermod -aG sudo kaz
+
+3.验证 sudo 组权限：
+可以查看 /etc/sudoers 文件以确认 sudo 组的用户是否具有 sudo 权限：
+cat /etc/sudoers
+你应该看到类似以下内容：
+%sudo   ALL=(ALL:ALL) ALL
+
+4.测试 sudo 命令：
+尝试运行 sudo 命令，验证是否可以使用：
+sudo service status
