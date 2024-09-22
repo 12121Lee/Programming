@@ -1,0 +1,15 @@
+Termux
+安装ssh:apt update && apt install openssh
+开启服务:sshd(ssh user@ip -p 8022)
+需要用passwd设置密码
+查看自己开放的端口: nmap localhost
+允许访问手机文件:termux-setup-storage
+安装ubuntu: proot-distro install ububtu
+登录ubuntu: proot-distro login ububtu
+安装fish终端:
+apt install fish
+chsh -s fish
+
+Termux API用法
+很多，可以通过fish终端补全一个一个试试看什么作用，
+有的需要权限才能正常运行.
