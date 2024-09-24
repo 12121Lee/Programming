@@ -1,0 +1,14 @@
+git的用法:
+
+初始化仓库: git init
+检出仓库:   git clone url
+查看状态:   git status
+将文件添加到暂存区:git add files
+查看差异:git diff
+提交更改:git commit -m "提交信息"
+查看提交历史:git log
+推送到远程仓库:git push remote-name branch-name:master
+
+git config --global user.name "Your name"
+git config --global user.email "Your@example.com"
+git config --global credential.helper store
