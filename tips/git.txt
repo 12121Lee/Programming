@@ -9,6 +9,23 @@ git的用法:
 查看提交历史:git log
 推送到远程仓库:git push remote-name branch-name:master
 
+配置姓名:
 git config --global user.name "Your name"
+
+配置邮件:
 git config --global user.email "Your@example.com"
+
+将 Git 的凭证存储在本地,以便下次使用 Git 时无需再次输入用户名和密码,
+这个文件默认保存在用户的 /home/用户名/ 目录下的 .git-credentials 文件中
 git config --global credential.helper store
+
+查看配置信息:
+git config -l
+
+查看系统配置:
+git config --system --list
+
+查看当前用户配置
+git config --global --list
+
+Git全局配置文件在安装目录下etc\gitconfig文件
