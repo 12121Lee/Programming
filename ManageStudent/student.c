@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <string.h>
-#include <errno.h>
 #include <stdlib.h>
 
 #define  FILENAME "student.txt"
+#define LEN sizeof(struct student)
 
 struct student
 {
@@ -28,6 +28,8 @@ void Sum();
 void displayAll();
 void Exit();
 
+void Error(char *msg, int line);
+
 void Swap(struct student *stu1, struct  student *stu2);
 
 
@@ -35,7 +37,8 @@ int main(void)
 {
     int choice;
     menu();
-    scanf("%d",&choice);
+    if(scanf("%d",&choice) != 1)
+        Error("输入只能包含数字!", __LINE__);
     while(choice)
     {
         switch (choice)
@@ -54,7 +57,8 @@ int main(void)
                 break;
         }
         menu();
-        scanf("%d",&choice);
+        if(scanf("%d",&choice) != 1)
+            Error("输入只能包含数字!", __LINE__);
     }
     Exit();
     return 0;
@@ -83,7 +87,20 @@ void addStudent()
 {
     int i = 0;
     char ch[2];
-    FILE* fp = fopen(FILENAME, "wb");
+    FILE* fp ;
+
+    fp = fopen(FILENAME, "r");
+    if(fp == NULL)
+        Error("无法打开文件!", __LINE__);
+    while (!feof(fp))
+    {
+        if(fread(&stu[i], LEN, 1, fp) == 1)
+            i++;
+    }
+    if(i == 0)
+        printf("文件中没有记录!\n");
+    fclose(fp);
+    fp = fopen(FILENAME, "ab");
     printf("输入学生信息<y/n>: ");
     scanf("%s", ch);
     while(strcmp(ch, "y") == 0)
@@ -100,11 +117,8 @@ void addStudent()
         scanf("%lf",&stu[i].required);
         stu[i].sum = stu[i].elective + stu[i].experiment + stu[i].required;
         if(fp == NULL)
-        {
-            fprintf(stderr, "%s", strerror(errno));
-            exit(1);
-        }
-        if(fwrite(&stu[i], sizeof(struct student), 1, fp) == 1)
+            Error("文件不存在!", __LINE__);
+        if(fwrite(&stu[i], LEN, 1, fp) == 1)
         {
             printf("%s被保存!", stu[i].name);
             i++;
@@ -122,21 +136,15 @@ void searchStudent()
     int num;
     FILE* fp = fopen(FILENAME, "rb");
     if(fp == NULL)
-    {
-        fprintf(stderr, "%s", strerror(errno));
-        exit(1);
-    }
+        Error("文件不存在!", __LINE__);
     while(!feof(fp))
     {
-        if(fread(&stu[m], sizeof(struct student), 1, fp) == 1)
+        if(fread(&stu[m], LEN, 1, fp) == 1)
             m++;
     }
     fclose(fp);
     if(m == 0)
-    {
-        printf("文件中没有记录！\n");
-        return;
-    }
+        Error("文件中没有记录!", __LINE__);
     printf("请输入查找的学号: ");
     scanf("%d", &num);
     for ( i = 0; i < m; i++)
@@ -160,22 +168,18 @@ void removeStudent() // 学号为0会出错
     char ch[2];
     FILE* fp = fopen(FILENAME, "r+");
     if(fp == NULL)
-    {
-        fprintf(stderr, "文件不存在!\n");
-        return;
-    }
+        Error("文件不存在!", __LINE__);
     while(!feof(fp))
     {
-        if(fread(&stu[m], sizeof(struct student), 1, fp) == 1)
+        if(fread(&stu[m], LEN, 1, fp) == 1)
             m++;
     }
     fclose(fp);
     if(m == 0)
     {
-        fprintf(stderr,"文件中没有记录!\n");
+        printf("没有学生信息，无法删除!\n");
         return;
     }
-
     printf("请输入学号: ");
     scanf("%d", &num);
     for ( i = 0; i < m; i++)
@@ -192,17 +196,11 @@ void removeStudent() // 学号为0会出错
                 }
                 m--;
                 if((fp = fopen(FILENAME, "wb")) == NULL)
-                {
-                    printf("文件不存在!\n");
-                    return;
-                }
+                    Error("文件不存在！", __LINE__);
                 for(j = 0; j < m; j++)
                 {
-                    if((fwrite(&stu[j], sizeof(struct student), 1, fp)) != 1)
-                    {
-                        printf("文件无法保存");
-                        return;
-                    }
+                    if((fwrite(&stu[j], LEN, 1, fp)) != 1)
+                        Error("文件无法保存！", __LINE__);
                 }
                 fclose(fp);
                 printf("删除成功!\n");
@@ -227,13 +225,10 @@ void modStudent()
     int num;
     FILE *fp = fopen(FILENAME, "r+");
     if(fp == NULL)
-    {
-        fprintf(stderr, "%s\n", strerror(errno));
-        return;
-    }
+        Error("文件不存在！", __LINE__);
     while(!feof(fp))
     {
-        if(fread(&stu[m], sizeof(struct student), 1, fp) == 1)
+        if(fread(&stu[m], LEN, 1, fp) == 1)
             m++;
     }
     if(m == 0)
@@ -261,13 +256,10 @@ void modStudent()
             printf("修改成功!\n");
             stu[i].sum = stu[i].elective + stu[i].experiment + stu[i].required;
             if((fp = fopen(FILENAME, "wb")) == NULL)
-            {
-                printf("不能打开文件!\n");
-                return;
-            }
+                Error("文件不存在！", __LINE__);
             for (j = 0; j < m; j++)
             {
-                if(fwrite(&stu[j], sizeof(struct student), 1, fp) != 1)
+                if(fwrite(&stu[j], LEN, 1, fp) != 1)
                     printf("不能保存!\n");
             }
             fclose(fp);
@@ -283,13 +275,10 @@ void insertStudent()
     int snum, m = 0, i, j, k;
     FILE *fp;
     if((fp = fopen(FILENAME, "r+")) == NULL)
-    {
-        printf("文本不存在!\n");
-        return;
-    }
+        Error("文件不存在！", __LINE__);
     while(!feof(fp))
     {
-        if (fread(&stu[m], sizeof(struct student), 1, fp) == 1)
+        if (fread(&stu[m], LEN, 1, fp) == 1)
             m++;
     }
     if(m == 0)
@@ -306,10 +295,7 @@ void insertStudent()
         if (stu[i].num == snum)
             break;
         else //原来的代码没有这个判断,会导致如果插入的学号找不到会在结尾加具体数量的0
-        {
-            printf("没有匹配的学号!\n");
-            return;
-        }
+            Error("没有匹配的学号!", __LINE__);
     }
     for(j = m - 1; j > i; j--)
         stu[j+1] = stu[j];
@@ -336,13 +322,10 @@ void insertStudent()
     stu[i+1].sum = stu[i+1].elective + stu[i+1].experiment + stu[i+1].required;
     printf("插入成功!\n");
     if((fp = fopen(FILENAME, "wb")) == NULL)
-    {
-        printf("不能打开!\n");
-        return;
-    }
+        Error("文件不存在!", __LINE__);
     for(k = 0;k <= m; k++)
     {
-        if(fwrite(&stu[k], sizeof(struct student), 1, fp) != 1)
+        if(fwrite(&stu[k], LEN, 1, fp) != 1)
             printf("不能保存!");
     }
     fclose(fp);
@@ -351,25 +334,17 @@ void insertStudent()
 void Sort() {
     FILE *fp;
     int m = 0, i, j;
-    if ((fp = fopen(FILENAME, "r+")) == NULL) {
-        printf("文件不存在!\n");
-        return;
-    }
+    if ((fp = fopen(FILENAME, "r+")) == NULL) 
+        Error("文件不存在!", __LINE__);
     while (!feof(fp)) {
-        if (fread(&stu[m], sizeof(struct student), 1, fp) == 1)
+        if (fread(&stu[m], LEN, 1, fp) == 1)
             m++;
     }
     fclose(fp);
     if (m == 0)
-    {
-        printf("文件为空!\n");
-        return;
-    }
+        Error("文件为空!", __LINE__);
     if ((fp = fopen(FILENAME, "wb")) == NULL)
-    {
-        printf("文件不存在!\n");
-        return;
-    }
+        Error("文件不存在!", __LINE__);
     for (i = 0; i < m ; i++)
     {
         for (j = i; j < m; j++)
@@ -380,7 +355,7 @@ void Sort() {
     }
     for(i = 0; i < m; i++)
     {
-        if(fwrite(&stu[i], sizeof(struct student), 1, fp) != 1)
+        if(fwrite(&stu[i], LEN, 1, fp) != 1)
         {
             printf("不能保存文件!\n");
         }
@@ -393,20 +368,14 @@ void Sum()
     FILE *fp;
     int m = 0;
     if((fp = fopen(FILENAME, "rb")) == NULL)
-    {
-        printf("文件打开失败!\n");
-        return;
-    }
+        Error("文件不存在!", __LINE__);
     while(!feof(fp))
     {
-        if(fread(&stu[m], sizeof(struct student), 1, fp) == 1)
+        if(fread(&stu[m], LEN, 1, fp) == 1)
             m++;
     }
     if(m == 0)
-    {
-        printf("文件为空!\n");
-        return;
-    }
+        Error("文件为空!", __LINE__);
     fclose(fp);
     printf("全班一共有%d名学生\n", m);
 }
@@ -416,18 +385,15 @@ void displayAll()
     int m = 0, n; //m:项数
     FILE* fp = fopen("student.txt", "rb");
     if(fp == NULL)
-    {
-        fprintf(stderr, "%s", strerror(errno));
-        exit(1);
-    }
+        Error("文件不存在!", __LINE__);
     while(!feof(fp))
     {
-        if(fread(&stu[m], sizeof(struct student), 1, fp) == 1)
+        if(fread(&stu[m], LEN, 1, fp) == 1)
             m++;
     }
     if(m == 0)
     {
-        fprintf(stderr,"文件为空!\n");
+        printf("还没有录入学生!\n");
         return;
     }
     fclose(fp);
@@ -440,6 +406,12 @@ void displayAll()
 void Exit()
 {
     puts("Bye!");
+}
+
+void Error(char *msg, int line)
+{
+    fprintf(stderr, "%d: %s\n", line, msg);
+    return;
 }
 
 void Swap(struct student *stu1, struct  student *stu2)
