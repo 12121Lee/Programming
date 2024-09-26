@@ -5,7 +5,7 @@ sudo apt update
 sudo apt install openssh-server
 
 2.启动服务
-sudo service ssh start(或者sudo systemctl start ssh)
+sudo service ssh start(或者sudo systemctl start ssh)(注意:Fedora系统中叫sshd)
 
 3.设定开机自启(可选)
 sudo systemctl enable ssh

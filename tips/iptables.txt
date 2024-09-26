@@ -1,0 +1,26 @@
+删除iptables中的规则
+查看 iptables 中的规则，找到要删除的规则的编号：
+iptables -L --line-numbers
+
+删除指定编号的规则：
+iptables -D [chain] [rule-number]
+其中，[chain] 是规则所在的链（如 INPUT、OUTPUT、FORWARD 等），[rule-number] 是要删除的规则的编号。
+例如，要删除 INPUT 链中编号为 3 的规则，可以使用以下命令：
+iptables -D INPUT 3
+
+如果要删除所有规则，可以使用以下命令：
+iptables -F
+
+Fedora如何允许ICMP回显
+在Fedora中，ICMP回显（ping请求）默认是允许的。如果由于某些安全策略或网络配置，
+ICMP回显请求被禁止或没有正确配置，你可以通过以下步骤来允许ICMP回显：
+确保你有足够的权限（通常需要root权限）。
+
+使用iptables防火墙规则来允许ICMP回显请求和回显应答。以下是相应的命令：
+sudo iptables -A INPUT -p icmp --icmp-type 8 -j ACCEPT
+sudo iptables -A OUTPUT -p icmp --icmp-type 0 -j ACCEPT 
+
+将端口22（或者自定义的其他端口）加到防火墙的设置中，标记为Accept
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+
+(另外一个工具叫firewalld)

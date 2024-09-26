@@ -1,19 +1,89 @@
-要将 Ubuntu 的默认 shell 改为 Zsh，可以按照以下步骤操作：
-1.安装 Zsh：
-如果你的系统还没有安装 Zsh，可以通过以下命令进行安装：
- sudo apt update
- sudo apt install zsh
+安装oh-my-zsh，配置命令行高亮，命令提示，打造高效终端
+1.安装zsh
+sudo apt-get install zsh
+其他Linux发行版本，则使用对应的包管理器安装即可
+安装好后，使用 cat /etc/shells 查看系统可以用的 shell
+使用 chsh -s /bin/zsh 命令将 zsh 设置为系统默认 shell。新开一个 Shell Session，就可以开始使用 zsh 了
 
-2.更改默认 Shell：
-使用 chsh 命令将默认的 shell 更改为 Zsh：
- chsh -s $(which zsh)
-这将把当前用户的默认 shell 设置为 Zsh。
+2.安装 oh-my-zsh
+安装 oh-my-zsh 之前，需要确保本地已经安装了 git。Linux使用sudo apt install git
+使用 curl 下载脚本并安装：
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+#没有梯子的使用国内镜像源
+sh -c "$(curl -fsSL https://gitee.com/shmhlsy/oh-my-zsh-install.sh/raw/master/install.sh)"
 
-3.重新登录：
-你需要注销并重新登录，或者关闭终端并重新打开，以使更改生效。
+或者使用 wget 下载脚本并安装：
+sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+然后同意使用 Oh-my-zsh 的配置模板覆盖已有的 .zshrc：
+在配置过程中，脚本会提示将 zsh 设为默认的 shell:
 
-4.配置 Zsh：
-第一次启动 Zsh 时，你可能会看到一个提示，要求你选择配置。你可以选择自动配置或手动配置。
-如果你希望使用 Oh My Zsh（一个流行的 Zsh 框架），可以通过以下命令安装：
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-完成以上步骤后，Ubuntu 的默认 shell 就会变成 Zsh 了。
+配置 zsh
+查看主题：
+在 https://github.com/ohmyzsh/ohmyzsh/wiki/Themes 中查看内置的主题样式和对应的主题名。
+这些内置主题已经放在 ~/.oh-my-zsh/themes 目录下，不需要再下载。
+cd ~/.oh-my-zsh/themes
+
+修改主题：
+cd到用户目录之下
+cd ~
+使用 vim 编辑 .zshrc，修改以下内容并保存：
+（不会用vim的，i键插入，编辑完esc键，然后输入:wq保存并退出）
+vim ./.zshrc
+
+#找到这一行修改
+ZSH_THEME="要修改的主题名称"
+
+最后，执行 source ~/.zshrc 配置生效
+source ~/.zshrc
+
+powerlevel10k （本人最喜欢的一个主题）
+除了内置主题外，还可以选择其他开源的主题，强烈推荐尝试一下 powerlevel10k 主题，
+一个顶十个，项目地址为：https://github.com/romkatv/powerlevel10k
+oh-my-zsh 安装这个款主题的方法：使用 git 将文件 clone 只指定文件夹 ～/.oh-my-zsh/custom/themes/powerlevel10k ，命令如下：
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+还是使用 vim 编辑 .zshrc的ZSH_THEME字段：
+ZSH_THEME="powerlevel10k/powerlevel10k"
+最后，执行 source ~/.zshrc 配置生效，和内置主题不同的是，这时会提示对主题进行配置，按照提示进行即可。
+source ~/.zshrc
+安装好后如果不满意主题,可以用p10k configure进行设置
+
+安装插件
+配置完主题，美观度是有了，但是使用效率还没有提高，这就需要安装插件了
+
+oh-my-zsh 已经内置了 git 插件，内置插件可以在 ～/.oh-my-zsh/plugins 中查看 ，下面介绍一下我常用的三个插件，
+更多插件可以在 awesome-zsh-plugins 里查看。
+
+zsh-autosuggestions
+zsh-autosuggestions 是一个命令提示插件，当你输入命令时，会自动推测你可能需要输入的命令，按下右键可以快速采用建议
+安装步骤：
+1.把插件下载到本地的 ~/.oh-my-zsh/custom/plugins 目录：
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+2.在 .zshrc 中，把 zsh-autosuggestions 加入插件列表：
+plugins=(
+    # other plugins...
+    zsh-autosuggestions  # 插件之间使用空格隔开
+)
+3.开启新的 Shell 或执行 source ~/.zshrc，就可以开始体验插件
+
+zsh-syntax-highlighting
+1.zsh-syntax-highlighting是一个命令语法校验插件，在输入命令的过程中，若指令不合法，则指令显示为红色，若指令合法就会显示为绿色
+安装步骤：
+把插件下载到本地的 ~/.oh-my-zsh/custom/plugins 目录:
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting 
+2.在 .zshrc 中，把 zsh-autosuggestions 加入插件列表：
+plugins=(
+    # other plugins...
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+)
+3.开启新的 Shell 或执行 source ~/.zshrc，就可以开始体验插件
+
+
+设置 alias
+zsh 支持为较长命令设置一个别名，这样在使用时可以快捷输入。
+
+这里以 cd ~/Documents/Vue/demo/project/src/2023/blob 这个命令来举例：
+1.在 .zshrc 中键入：
+alias cdblob="cd ~/Documents/Vue/demo/project/src/2023/blob" 
+
+2.开启新的 Shell 或 source ~/.zshrc，以使配置生效。生效后就可以使用 cdblog 进行跳转这个路径了。

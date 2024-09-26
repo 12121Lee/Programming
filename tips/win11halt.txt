@@ -1,0 +1,8 @@
+电脑卡死了咋办:
+手机远程ssh连接windows,然后在命令行输入
+tasklist
+会显示正在运行的进程
+然后输入
+taskkill /PID PID(你想停止运行服务的pid号) /F(强行停止)
+(或者taskkill /IM process.exe(进程名) /F)
+就可以了

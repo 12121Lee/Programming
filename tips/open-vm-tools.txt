@@ -1,0 +1,27 @@
+Linux下实现文件夹共享
+1.安装vmware-tools
+(1)重启vmware,在开机界面时选择菜单栏的"重新安装Vmware Tools"
+(2)进入界面后,将挂载的Vmwar Tools镜像点击,复制VMwareTools-10.3.23-16594550.tar.gz
+到~目录，然后解压
+sudo tar zxvf VMwareTools-10.3.23-16594550.tar.gz
+得到一个vmware-tools-distrib文件夹,并进入文件夹
+cd vmware-tools-distrib
+然后安装:
+sudo ./vmware-install.pl
+根据提示一步一步安装即可
+
+2.安装open-vm-tools(以Fedora为例)
+(1)安装open-vm-toos
+sudo yum install open-vm-tools
+(2)启动服务
+sudo systemctl start vmtoolsd.service
+(3)设置开机自启
+sudo systemctl enable vmtoolsd.service
+(4)在vmware里设置windwos下的共享文件夹
+(5)设置开机自动挂载
+进入/etc/fstab文件夹
+sudo nano /etc/fstab
+加入下面的内容
+.host:/ /mnt/hgfs fuse.vmhgfs-fuse allow_other,defaults 0 0 
+(注: 是defaults不是default，不然重启后显示You are in emergency mode)
+(4)重启系统就可以cd /mnt/hgfs/共享目录了
