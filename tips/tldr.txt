@@ -1,0 +1,15 @@
+安装tldr后使用时发现错误
+tldr ls
+错误:
+Error fetching from tldr: <urlopen error [Errno 111] Connection refused>
+
+解决办法
+(1)通过ping 该域名 raw.githubusercontent.com发现ping不通，
+通过https://www.ipaddress.com/网站中raw.githubusercontent.com 或者
+用nslookup raw.githubusercontent.com获取ip地址，
+然后进行host映射编辑/etc/hosts，内容如下
+185.199.109.133 raw.githubusercontent.com
+
+通过设置域名host映射后，无报错
+
+(2)tldr --update更新一下本地缓存就可以了
