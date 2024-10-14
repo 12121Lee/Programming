@@ -1,0 +1,48 @@
+命令							含义
+md5sum						计算和检查MD5信息摘要
+sha256sum 					计算和检查SHA256消息摘要
+neofetch(screenfetch)		显示系统信息
+安装步骤:
+	在 Ubuntu 16.10 和更低版本上
+	1.sudo add-apt-repository ppa:dawidd0811/neofetch
+	2.sudo apt update
+	3.sudo apt install neofetch
+	在 Ubuntu 17.10 和更新版本上
+	sudo apt-get install neofetch
+	(https://zhuanlan.zhihu.com/p/69777438)
+tac                         反转文本
+nl                          列出文件行数
+cmatrix                     流星雨
+watch -n1 "date '+%D%n%T'|figlet -k -f lean(showfigfonts)"  动态显示ascii时间(toilet -f bubble -F border "hello world" --gay)
+sl							小火车
+cowsay hello world			带牛显示文本
+aafire						动态火焰
+fortune						随机英文句子
+nm							从目标文件中列出符号
+upx							压缩或者解压可执行文件
+aria2c						下载工具(安装用apt install aria2)
+alias 						取别名
+    在~/.bashrc里添加alias cls='clear'后,输入. ~/.bashrc即可永远生效
+lsmod						列举Linux内核模块状态
+modprobe					向linux内核增加或删除模块
+addr2line                   将程序指令地址转换为所对应的函数名、以及函数所在的源文件名和行号(编译时加-g)
+
+ubuntu16.04安全更新网址: https://help.aliyun.com/document_detail/267548.htm
+书籍下载网址: http://www.xampp.cc/archives/14396(配合PanDownload使用)
+自定义终端: https://blog.csdn.net/littlehaes/article/details/103700579(配合figlet使用更佳)
+gdb调试(栈溢出):https://blog.csdn.net/rentong123/article/details/105584532
+在线man手册:https://www.onitroad.com/jc/linux/man-pages/linux/man3/memfrob.3.html
+printf打印颜色:https://www.cnblogs.com/lewki/p/14343894.html
+gcc的编译选项: https://nshipster.cn/__attribute__/
+https://gcc.gnu.org/onlinedocs/gcc-4.0.0/gcc/Type-Attributes.html#Type-Attributes
+环境变量问题:
+新增环境变量:export PATH=$PATH:path1:path2:path3...(也可以在$HOME/.profile里编辑)
+删除/修改:同上
+修改后永久生效
+法一：修改完毕后用source $HOME/.profile(或者 . $HOME/.profile)
+法二：可以在$HOME/.bashrc里最后一行加入export PATH=$PATH:path1:path2:path3...
+检测内存泄露工具: 
+1.valgrind 
+    安装: sudo apt update && apt install valgrind
+    使用:valgrind --leak-check=full ./demo(二进制可执行文件)
+2.mtarce(结合函数使用):https://blog.csdn.net/qq_21539375/article/details/124175423

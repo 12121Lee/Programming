@@ -1,0 +1,11 @@
+#!/bin/bash
+# This is a script which makes c++ source file to executable file
+obj=$(echo "$1" | awk -F '.' '{print $1}')
+if [ -n "$1" ]
+then
+    g++ "$1" -o "./$obj" -Wall # -F fs:Use '.' for the input field separator
+else
+    echo "usage: cout C++ source(e.g cout test.cpp)"
+    exit 127
+fi
+exit

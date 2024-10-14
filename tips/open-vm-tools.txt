@@ -22,6 +22,8 @@ sudo systemctl enable vmtoolsd.service
 进入/etc/fstab文件夹
 sudo nano /etc/fstab
 加入下面的内容
-.host:/ /mnt/hgfs fuse.vmhgfs-fuse allow_other,defaults 0 0 
+.host:/  /mnt/hgfs fuse.vmhgfs-fuse allow_other defaults 0 0 
 (注: 是defaults不是default，不然重启后显示You are in emergency mode)
-(4)重启系统就可以cd /mnt/hgfs/共享目录了
+(6)重启系统就可以cd /mnt/hgfs/共享目录了
+
+手动挂载: sudo vmhgfs-fuse .host:/ /mnt/hgfs

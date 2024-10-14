@@ -1,0 +1,23 @@
+#!/bin/bash
+# This is a script which makes c/c++ source file to executable file
+obj="$(echo "$1" | awk -F '.' '{print $1}')"
+end="$(echo "$1" | awk -F '.' '{print $2}')"
+
+function executable() {
+    if [ -n "$1" ] 
+    then
+        if [ "$end" = "c" ] 
+        then
+            gcc "$1" -o "$obj" -Wall && "./$obj"
+        fi
+        if [ "$end" = "cpp" ] 
+        then
+            g++ "$1" -o "$obj" -Wall && "./$obj"
+        fi
+    else
+        echo "usage: compile C/C++ source(e.g compile test.c/test.cpp)"
+        exit 127
+    fi
+}
+
+executable "$1"
