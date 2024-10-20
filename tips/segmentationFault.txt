@@ -1,0 +1,5 @@
+编译代码出现段错误
+1.打印行数
+2.用gdb调试
+编译时加选项-g: gcc demo.c -g -o demo
+使用gdb: gdb demo 然后输入run即可

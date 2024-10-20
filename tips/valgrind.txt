@@ -1,0 +1,9 @@
+用valgrind检测代码是否内存泄漏(假设demo.c是源文件)
+1.安装valgrind
+sudo apt install valgrind
+2.编译带符号的可执行文件
+gcc -g -o demo demo.c -Wall
+3.使用valgrind检测
+valgrind --leak-check=full ./demo
+
+注意:在Garuda Linux里(基于Arch Linux),需要在root用户下才能正常使用,普通用户使用会报错,原因不详
