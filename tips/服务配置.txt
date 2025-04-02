@@ -1,0 +1,89 @@
+在 Ubuntu 中启用SSH服务：
+1.安装OpenSSH
+打开终端并运行以下命令以安装 openssh-server：
+sudo apt update
+sudo apt install openssh-server
+
+2.启动服务
+sudo service ssh start(或者sudo systemctl start ssh)(注意:Fedora系统中叫sshd)
+
+3.设定开机自启(可选)
+sudo systemctl enable ssh
+
+若想自定义端口或者其他设置,可以输入
+sudo nano /etc/ssh/sshd_config
+
+在Ubuntu 中启用ftp服务：
+1.安装vsftpd
+在 Ubuntu 上，vsftpd 是常用的 FTP 服务器。运行以下命令进行安装：
+sudo apt update
+sudo apt install vsftpd
+
+2.配置 vsftpd
+配置文件位于 /etc/vsftpd.conf。你可以编辑该文件以启用或修改 FTP 配置：
+sudo nano /etc/vsftpd.conf
+
+3.确保以下设置已启用：
+anonymous_enable=NO
+local_enable=YES
+write_enable=YES
+
+修改后保存文件，并启动 vsftpd 服务：
+sudo systemctl start vsftpd
+
+4.检查 vsftpd 服务状态
+使用以下命令查看 FTP 服务是否正常运行：
+sudo systemctl status vsftpd
+
+防火墙设置（可选）
+如果你启用了防火墙（例如 ufw），你可能需要允许 SSH 和 FTP 端口通过防火墙：
+sudo ufw allow ssh
+sudo ufw allow ftp
+
+1. 安装 Samba
+首先，您需要安装 Samba 服务器软件。打开终端并运行以下命令：
+
+sudo apt update
+sudo apt install samba
+
+2. 配置 Samba
+安装完成后，您需要配置 Samba 以设置共享文件夹。配置文件位于 /etc/samba/smb.conf。
+sudo nano /etc/samba/smb.conf
+
+在文件的末尾，您可以添加一个共享文件夹配置。例如，如果您想共享 /home/user/shared 目录，可以添加如下内容：
+[shared]
+path = /home/user/shared
+browseable = yes
+read only = no
+guest ok = yes
+
+3. 创建共享文件夹
+如果共享的目录还不存在，您可以创建一个新的文件夹：
+mkdir -p /home/user/shared
+确保 Samba 对该文件夹有适当的权限：
+sudo chmod 777 /home/user/shared
+
+4. 创建 Samba 用户（可选）
+如果您希望共享资源通过认证访问，可以为 Samba 创建一个用户：
+sudo smbpasswd -a your_username
+然后，按照提示输入并确认密码。
+
+5. 启动并检查 Samba 服务
+安装和配置完成后，启动 Samba 服务：
+sudo systemctl start smbd
+将 Samba 服务设置为开机启动：
+sudo systemctl enable smbd
+
+6. 检查 Samba 服务状态
+您可以使用以下命令检查 Samba 服务是否正在运行：
+sudo systemctl status smbd
+
+7. 防火墙设置（可选）
+如果您启用了防火墙（例如 ufw），需要允许 Samba 通过防火墙：
+sudo ufw allow 'Samba'
+
+8. 访问共享文件夹
+配置完成后，您可以从局域网中的其他计算机访问此共享文件夹。
+在 Linux 中可以使用文件管理器直接输入 smb://your_server_ip/shared，
+在 Windows 中可以通过文件资源管理器访问 \\your_server_ip\shared。
+这样，您应该就能够在 Ubuntu 上成功启用 Samba 服务并共享文件。

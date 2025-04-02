@@ -1,0 +1,8 @@
+1.下载镜像文件，你想用什么版本的Linux，就下载什么版本的镜像文件。
+2.制作U盘启动盘，用balenaEtcher(可能会出错)或者rufus从镜像文件制作U盘启动盘。(会遇到U盘大小从几十G变为几十M，
+解决方法请查看https://blog.csdn.net/cuicui_ruirui/article/details/105032643)
+3.插入U盘启动盘，开机后按F2进入BIOS设置。
+13.重启计算机，进入Linux系统，根据提示安装Linux系统，最后拔出U盘重启
+
+如何使用Rufus制作U盘启动盘：
+https://blog.csdn.net/qq_29752857/article/details/135215762

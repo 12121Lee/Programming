@@ -1,0 +1,29 @@
+sqlite3
+安装到电脑里在终端使用
+1.进入官网(https://www.sqlite.org/download.html),下载sqlite-dll-win-x86-3490100.zip和sqlite-tools-win-x64-3490100.zip
+创建一个新目录，将两个压缩包里的文件都放在新目录下(例如:D:/sqlite3)
+2.将该目录的路径加入系统环境变量,键入sqlite3 --version有输入版本号即为安装成功
+此刻文件夹下的文件为sqlite3.def sqlite3.dll sqldiff.exe sqlite3.exe sqlite3_analyzer.exe sqlite3_rsync.exe共6个文件
+
+遇到的问题:终端输入sqlite3调用的版本不是我安装的版本,是ADB工具包里的sqlite3
+解决方案:在设置系统环境变量时，将
+
+其他编程语言使用sqlite3
+1.进入官网(https://www.sqlite.org/download.html),下载sqlite-amalgamation-3490100.zip,sqlite-dll-win-x86-3490100.zipl,解压后放入
+代码文件的同目录下
+2.生成执行文件(假设demo.c是我们的代码文件)
+动态编译
+(1).(windows)使用MinGW生成sqlite3.dll文件
+dlltool --input-def sqlite3.def --dllname sqlite3.dll --output-lib sqlite3.lib
+(2)结合代码编译
+gcc demo.c -I . -L. -lsqlite3
+
+静态编译
+(1)gcc demo.c sqlite3.c -I .
+
+此刻文件夹下的文件为demo.c sqlite3.def sqlite3.dll sqlite3.lib, shell.c sqlite3.c sqlite3.h sqlite3ext.h共8个文件
+
+压缩包及其对应的文件:
+sqlite-amalgamation-3490100.zip=>shell.c sqlite3.c sqlite3.h sqlite3ext.h
+sqlite-dll-win-x86-3490100.zip=>sqlite3.def sqlite3.dll
+sqlite-tools-win-x64-3490100.zip=>sqldiff.exe sqlite3.exe sqlite3_analyzer.exe sqlite3_rsync.exe
