@@ -3,7 +3,16 @@
 int main(void) 
 {
 	/*17位身份证号*/
-	int a[] = {5,1,3,7,2,1,2,0,0,2,0,2,1,5,2,2,6};
+	// int a[] = {5,1,3,7,2,1,2,0,0,2,0,2,1,5,2,2,6};
+	int a[17] = {0};
+	printf("请输入17位身份证号前17位数字(连续输入，无需分隔）：\n");
+    for(int i = 0; i < 17; i++)
+    {
+        // 使用格式控制，直接读取连续的数字字符并转换为整数
+        char c;
+        scanf(" %c", &c);  // 注意%c前面的空格，用于跳过空白字符
+        a[i] = c - '0';   // 将字符转换为对应的数字
+    }
 	/*固定的校验码 */
 	const int check[] = {7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2};
 	int len = sizeof(a)/sizeof(a[0]);
@@ -16,7 +25,7 @@ int main(void)
 	}
 	// printf("sum = %d\n",sum);
 	// printf("the left number = %d\n",sum%11);
-	switch (sum%11) /*余数对应最后一位身份证号*/
+	switch (sum % 11) /*余数对应最后一位身份证号*/
 	{
 		case 0:   checkcode  = '1';break;
 		case 1:   checkcode  = '0';break;
